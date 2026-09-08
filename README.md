@@ -400,6 +400,34 @@ node --version
 
 ---
 
+## 品牌定制
+
+### 修改界面文案
+
+修改 dsh 界面的主标题和徽标文案：
+
+```bash
+# 默认修改为"拓展人类生存空间" + "星际天算"
+sudo bash scripts/update_branding.sh
+
+# 自定义文案
+sudo bash scripts/update_branding.sh "你的主标题" "你的徽标"
+```
+
+**注意**：
+- 修改在 `node_modules` 中，dsh 升级/重装后会回退到出厂默认
+- 如需持久化，可在 `scripts/setup_server.sh` 中加入此脚本
+- 仅修改中文语言包，英文版保持默认
+
+### 修改登录页面
+
+登录页面样式在 `auth-service/static/login.html`：
+- 主题色：`#0a0a0a`（背景）、`#c9a84c`（金色强调）
+- 字体：Cinzel（衬线体）
+- 修改后重启认证服务：`systemctl restart starcompute-auth`
+
+---
+
 ## 安全部署检查清单
 
 - [ ] 修改所有 `CHANGE_ME` / `your_password` / `your-server-ip` 占位符
