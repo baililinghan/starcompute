@@ -1,0 +1,40 @@
+# ============================================================
+# StarCompute — 认证服务 systemd 单元
+# ============================================================
+# 安装位置：/etc/systemd/system/starcompute-auth.service
+# 启用方式：systemctl enable --now starcompute-auth
+# ============================================================
+
+[Unit]
+Description=StarCompute Auth Service (FastAPI)
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/starcompute/auth-service
+ExecStart=/opt/starcompute/auth-service/venv/bin/python -m uvicorn app:app --host 0.0.0.0 --port 8000 --log-level info
+Restart=on-failure
+RestartSec=5
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+# 环境变量（可在此处设置或使用 EnvironmentFile）
+Environment=AUTH_HOST=0.0.0.0
+Environment=AUTH_PORT=8000
+Environment=AUTH_DB_PATH=/opt/starcompute/auth-service/users.db
+Environment=AUTH_SECRET_KEY=CHANGE_ME_TO_A_RANDOM_SECRET_KEY
+Environment=DSH_SERVER_IP=127.0.0.1
+Environment=DSH_BASE_PORT=8080
+
+# 也可以使用环境文件（更安全，便于管理敏感信息）
+# EnvironmentFile=/opt/starcompute/auth-service/.env
+
+# 日志
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=starcompute-auth
+
+[Install]
+WantedBy=multi-user.target

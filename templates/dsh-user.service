@@ -1,0 +1,50 @@
+# ============================================================
+# StarCompute — dsh 用户 systemd 服务单元模板
+# ============================================================
+# 部署时替换：
+#   %i           — 系统用户名（由 systemd 自动替换）
+#   SERVER_IP    — 替换为实际服务器 IP
+#   8080         — 替换为该用户的实际端口
+#
+# 安装位置：/etc/systemd/system/dsh-user@.service
+# 启用方式：systemctl enable dsh-user@<username>
+# ============================================================
+
+[Unit]
+Description=dsh Instance for User %i
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+Group=%i
+WorkingDirectory=/home/%i
+ExecStart=/home/%i/.local/bin/dsh serve --port 8080 --host 127.0.0.1
+Restart=on-failure
+RestartSec=5
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+# 环境变量
+Environment=HOME=/home/%i
+Environment=PATH=/home/%i/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=NODE_ENV=production
+
+# 安全限制
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/home/%i
+PrivateTmp=true
+
+# 资源限制
+MemoryMax=4G
+CPUQuota=200%
+
+# 日志
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=dsh-%i
+
+[Install]
+WantedBy=multi-user.target

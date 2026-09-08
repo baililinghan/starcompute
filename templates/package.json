@@ -1,0 +1,74 @@
+{
+  "name": "dsh-profile-bundles",
+  "version": "1.0.0",
+  "description": "StarCompute dsh profile bundles — 客户端插件发现配置",
+  "private": true,
+  "bundles": {
+    "file-upload": {
+      "name": "File Upload",
+      "description": "文件上传与管理",
+      "version": "1.0.0",
+      "entry": "plugins/file-upload/index.js",
+      "capabilities": ["file-upload", "file-read", "file-list"],
+      "ui": {
+        "icon": "upload",
+        "position": "toolbar"
+      }
+    },
+    "code-interpreter": {
+      "name": "Code Interpreter",
+      "description": "代码执行与调试",
+      "version": "1.0.0",
+      "entry": "plugins/code-interpreter/index.js",
+      "capabilities": ["code-exec", "code-repl"],
+      "ui": {
+        "icon": "terminal",
+        "position": "toolbar"
+      }
+    },
+    "web-search": {
+      "name": "Web Search",
+      "description": "网络搜索",
+      "version": "1.0.0",
+      "entry": "plugins/web-search/index.js",
+      "capabilities": ["search", "fetch"],
+      "ui": {
+        "icon": "search",
+        "position": "toolbar"
+      }
+    },
+    "document-parser": {
+      "name": "Document Parser",
+      "description": "文档解析",
+      "version": "1.0.0",
+      "entry": "plugins/document-parser/index.js",
+      "capabilities": ["doc-parse", "doc-extract"],
+      "ui": {
+        "icon": "file-text",
+        "position": "toolbar"
+      }
+    },
+    "image-generation": {
+      "name": "Image Generation",
+      "description": "图像生成",
+      "version": "1.0.0",
+      "entry": "plugins/image-generation/index.js",
+      "capabilities": ["img-gen"],
+      "ui": {
+        "icon": "image",
+        "position": "toolbar"
+      }
+    },
+    "knowledge-base": {
+      "name": "Knowledge Base",
+      "description": "知识库检索",
+      "version": "1.0.0",
+      "entry": "plugins/knowledge-base/index.js",
+      "capabilities": ["kb-query", "kb-index"],
+      "ui": {
+        "icon": "book",
+        "position": "toolbar"
+      }
+    }
+  }
+}

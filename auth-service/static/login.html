@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarCompute</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Cinzel', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 星空背景粒子 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(1px 1px at 20% 30%, rgba(201, 168, 76, 0.3), transparent),
+                radial-gradient(1px 1px at 40% 70%, rgba(201, 168, 76, 0.2), transparent),
+                radial-gradient(1px 1px at 60% 20%, rgba(201, 168, 76, 0.3), transparent),
+                radial-gradient(1px 1px at 80% 50%, rgba(201, 168, 76, 0.2), transparent),
+                radial-gradient(1.5px 1.5px at 10% 80%, rgba(201, 168, 76, 0.4), transparent),
+                radial-gradient(1px 1px at 90% 10%, rgba(201, 168, 76, 0.3), transparent),
+                radial-gradient(1.5px 1.5px at 50% 50%, rgba(201, 168, 76, 0.2), transparent),
+                radial-gradient(1px 1px at 70% 90%, rgba(201, 168, 76, 0.3), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            padding: 0 24px;
+        }
+
+        .login-card {
+            background: rgba(18, 18, 18, 0.9);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            border-radius: 4px;
+            padding: 48px 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #c9a84c;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        .logo .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+            margin: 16px auto 0;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 2px;
+            color: #e0e0e0;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #c9a84c;
+            box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #444;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #c9a84c, #a08030);
+            border: none;
+            border-radius: 2px;
+            color: #0a0a0a;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #d4b85c, #b09040);
+            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
+        }
+
+        .btn-login:active {
+            transform: translateY(1px);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 16px;
+            letter-spacing: 1px;
+            min-height: 18px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #333;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <h1>StarCompute</h1>
+                <div class="divider"></div>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="username" name="username"
+                           placeholder="Enter username" autocomplete="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" name="password"
+                           placeholder="Enter password" autocomplete="current-password" required>
+                </div>
+
+                <button type="submit" class="btn-login">Enter</button>
+            </form>
+
+            <div class="error-msg" id="errorMsg"></div>
+        </div>
+
+        <div class="footer">
+            Powered by StarCompute
+        </div>
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = '';
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                errorMsg.textContent = 'Please enter both fields';
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+
+                const response = await fetch('/_auth/login', {
+                    method: 'POST',
+                    body: formData,
+                    redirect: 'follow'
+                });
+
+                // 如果登录成功，服务端会返回 302 重定向
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    const data = await response.json();
+                    errorMsg.textContent = data.error || 'Login failed';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Connection error';
+            }
+        }
+
+        // 页面加载后自动聚焦用户名输入框
+        document.getElementById('username').focus();
+    </script>
+</body>
+</html>

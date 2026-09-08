@@ -1,0 +1,63 @@
+# StarCompute
+# ============================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# 虚拟环境
+venv/
+.venv/
+env/
+
+# 数据库文件
+*.db
+*.db-journal
+*.sqlite
+
+# 环境配置（包含密钥）
+.env
+.env.local
+.env.production
+
+# 日志
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# SSL 证书
+*.pem
+*.key
+*.crt
+*.csr
+
+# 系统服务文件（已安装到 /etc）
+# templates/ 下的模板除外
+
+# 临时文件
+*.tmp
+*.bak
+*.cache/
+
+# Node.js
+node_modules/
+package-lock.json
+
+# 用户数据（敏感）
+users.txt
+user_configs/

@@ -1,0 +1,76 @@
+# ============================================================
+# StarCompute — dsh 插件配置模板 (cordis.patch.yml)
+# ============================================================
+# 部署时替换 vLLM 地址和 token 占位符
+# 此文件应复制到每个用户的 dsh 配置目录：
+#   ~/.dsh/config/cordis.patch.yml
+# ============================================================
+
+# vLLM / OpenAI-compatible API 连接配置
+llm:
+  provider: openai
+  base_url: "http://your-server-ip:8000/v1"  # vLLM 服务地址
+  api_key: "your_vllm_api_key"                # vLLM API key
+  model: "your-model-name"                    # 模型名称
+  max_tokens: 4096
+  temperature: 0.7
+
+# 插件配置
+plugins:
+  # 1. 文件上传插件
+  file-upload:
+    enabled: true
+    max_file_size: "50MB"
+    allowed_extensions:
+      - ".txt"
+      - ".md"
+      - ".pdf"
+      - ".docx"
+      - ".xlsx"
+      - ".csv"
+      - ".json"
+      - ".py"
+      - ".js"
+      - ".ts"
+
+  # 2. 代码执行插件
+  code-interpreter:
+    enabled: true
+    timeout: 60
+    max_output_length: 10000
+    allowed_languages:
+      - "python"
+      - "javascript"
+      - "bash"
+
+  # 3. 网络搜索插件
+  web-search:
+    enabled: true
+    provider: "searxng"
+    searxng_url: "http://your-server-ip:8888"  # SearXNG 实例地址
+    max_results: 5
+
+  # 4. 文档解析插件
+  document-parser:
+    enabled: true
+    supported_formats:
+      - ".pdf"
+      - ".docx"
+      - ".xlsx"
+      - ".pptx"
+      - ".html"
+
+  # 5. 图像生成插件
+  image-generation:
+    enabled: false
+    provider: "local"  # 或 "dall-e", "sd-webui"
+    api_url: "http://your-server-ip:7860"  # Stable Diffusion WebUI 地址
+
+  # 6. 知识库插件
+  knowledge-base:
+    enabled: true
+    vector_store: "chromadb"
+    embedding_model: "your-embedding-model"
+    collection_name: "user_knowledge"
+    chunk_size: 512
+    chunk_overlap: 50
