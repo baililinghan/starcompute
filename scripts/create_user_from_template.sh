@@ -41,13 +41,25 @@ ln -sf /opt/dsh-plugins/dsh-file-upload /home/$USER/.dsh/profiles/web/node_modul
 echo "5. 创建dsh内部链接..."
 ln -sf /opt/dsh-plugins/dsh-file-upload /home/$USER/.local/lib/node_modules/@deepseek-ai/dsh/node_modules/dsh-file-upload
 
-# 6. 设置权限
-echo "6. 设置权限..."
+# 6. 复制已修补的JS文件（isLoopbackHostname补丁 + UI文案）
+echo "6. 复制JS补丁..."
+DSH_MODULES="/home/$USER/.local/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai"
+TEMPLATE_MODULES="/home/$TEMPLATE/.local/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai"
+
+# dsh-client-connection (isLoopbackHostname补丁)
+cp $TEMPLATE_MODULES/dsh-client-connection/lib/client.js $DSH_MODULES/dsh-client-connection/lib/client.js
+cp $TEMPLATE_MODULES/dsh-client-connection/lib/index.js $DSH_MODULES/dsh-client-connection/lib/index.js
+
+# dsh-client-ui-conversation (UI文案: 拓展人类生存空间/星际天算)
+cp $TEMPLATE_MODULES/dsh-client-ui-conversation/lib/client.js $DSH_MODULES/dsh-client-ui-conversation/lib/client.js
+
+# 7. 设置权限
+echo "7. 设置权限..."
 chown -R $USER:$USER /home/$USER/.dsh
 chown -R $USER:$USER /home/$USER/.local
 
-# 7. 创建systemd服务
-echo "7. 创建systemd服务..."
+# 8. 创建systemd服务
+echo "8. 创建systemd服务..."
 cat > /etc/systemd/system/dsh-$USER.service << EOF
 [Unit]
 Description=StarCompute dsh - $USER
@@ -67,15 +79,15 @@ Environment=PLAYWRIGHT_BROWSERS_PATH=/opt/dsh-plugins/browser-automation/.browse
 WantedBy=multi-user.target
 EOF
 
-# 8. 启用并启动服务
-echo "8. 启动服务..."
+# 9. 启用并启动服务
+echo "9. 启动服务..."
 systemctl daemon-reload
 systemctl enable dsh-$USER
 systemctl start dsh-$USER
 
 sleep 5
 
-# 9. 验证
+# 10. 验证
 echo ""
 echo "=== 验证 ==="
 echo "用户: $(id $USER 2>/dev/null && echo 'OK' || echo 'FAIL')"
